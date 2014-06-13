@@ -25,7 +25,7 @@ import android.os.Build;
 public class MainActivity extends Activity {
 	TextView timeView;
 	ImageButton dan;
-	int timePassed = 20;
+	int timePassed = 0;
 	Timer time;
 	
 	@Override
@@ -50,32 +50,12 @@ public class MainActivity extends Activity {
 			public void run() {
 				Runnable run = new Runnable() {
 					public void run() {
-						timeView.setText("" + (--timePassed));
+						timeView.setText("" + (++timePassed));
 					}
 				};
 				MainActivity.this.runOnUiThread(run);
-				if (timePassed <= 1) {
-					time = null;
-					return;
-				}
 			}
 		}, 0, 1000);
-		if (timePassed <= 1) {
-			AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this); //Read Update
-	        alertDialog.setTitle("Results");
-	        alertDialog.setMessage("You couldn't find Dan Jin!");
-	        alertDialog.setPositiveButton("Continue..", new DialogInterface.OnClickListener() {
-	        	public void onClick(DialogInterface dialog, int which) {
-		              loadActivity();
-		           }
-		        });
-		    alertDialog.setNegativeButton("Exit?", new DialogInterface.OnClickListener() {
-			    public void onClick(DialogInterface dialog, int which) {
-			          System.exit(0);
-			       }
-			    });
-	        alertDialog.show(); 
-		}
 	}
 	
 	View.OnClickListener danListener = new View.OnClickListener() {
@@ -84,7 +64,7 @@ public class MainActivity extends Activity {
 			AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this); //Read Update
 	        alertDialog.setTitle("Results");
 	        alertDialog.setMessage("You found Dan Jin!");
-	        alertDialog.setPositiveButton("Continue..", new DialogInterface.OnClickListener() {
+	        alertDialog.setPositiveButton("Continue?", new DialogInterface.OnClickListener() {
 	        	public void onClick(DialogInterface dialog, int which) {
 		              loadActivity();
 		           }
@@ -103,7 +83,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		timeView = (TextView) findViewById(R.id.timeView);
 		dan = (ImageButton) findViewById(R.id.dan);
-		timePassed = 20;
+		timePassed = 0;
 		Random r = new Random();
 		Display display = getWindowManager().getDefaultDisplay(); 
 		Point size = new Point();
@@ -115,37 +95,6 @@ public class MainActivity extends Activity {
 		dan.setX(x);
 		dan.setY(y);
 		dan.setOnClickListener(danListener);
-		time = new Timer();
-		time.schedule(new TimerTask() {
-			public void run() {
-				MainActivity.this.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						timeView.setText("" + (--timePassed));
-					}
-				});
-				if (timePassed <= 1){
-					time = null;
-					return;
-				}
-			}
-		}, 0, 1000);
-		if (timePassed <= 1) {
-			AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this); //Read Update
-	        alertDialog.setTitle("Results");
-	        alertDialog.setMessage("You couldn't find Dan Jin!");
-	        alertDialog.setPositiveButton("Continue..", new DialogInterface.OnClickListener() {
-	        	public void onClick(DialogInterface dialog, int which) {
-		              loadActivity();
-		           }
-		        });
-		    alertDialog.setNegativeButton("Exit?", new DialogInterface.OnClickListener() {
-			    public void onClick(DialogInterface dialog, int which) {
-			          System.exit(0);
-			       }
-			    });
-	        alertDialog.show(); 
-		}
 	}
 	
 	@Override
@@ -166,10 +115,4 @@ public class MainActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-
-
 }
